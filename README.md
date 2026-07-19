@@ -155,25 +155,29 @@ Top Recommendations:
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
-
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+I ran six different user profiles through the recommender — three typical
+tastes and three deliberately tricky ones (a contradictory profile, a
+genre that does not exist, and a profile missing most fields) — to see if
+the scoring would break or behave oddly. It held up in all six cases,
+degrading gracefully instead of crashing when information was missing or
+invalid. I also tested a weight-shift experiment (doubling energy's
+weight, halving genre's) and found the top result mostly stayed the same,
+but the gap between 1st and 2nd place shrank a lot — showing the ranking
+is genuinely sensitive to these weights, not locked in by the dataset.
+Full breakdowns and terminal output are in `model_card.md`.
 
 ---
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+This system only works well when a song's genre exactly matches what the
+user typed — there is no fuzzy matching, so "pop" and "indie pop" are
+treated as completely unrelated. It also cannot express dislikes, only
+likes, so an actively hated genre scores the same as a neutral one. Most
+genres in the current catalog only have one song, so many "top
+recommendations" are not really a ranking, they are just the only option
+available. See `model_card.md` for the full breakdown, including specific
+examples from testing.
 
 ---
 
